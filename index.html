@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Bio FMZNkdv</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            border-top: 2px solid #333;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
+        ul { list-style: none; }
+        
+        :root {
+            --holo-green: #A4C639; /* Classic Android Green */
+            --holo-pressed: rgba(164, 198, 57, 0.4); /* Green transparent press effect */
+            --holo-border: #333;
+            --text-secondary: #888;
+        }
+
+        header { height: 56px; background-color: #111; display: flex; align-items: center; padding: 0 4px; border-bottom: 2px solid #222; position: sticky; top: 0; z-index: 10; }
+        .app-icon-area { display: flex; align-items: center; padding: 0 12px; height: 100%; cursor: pointer; }
+        .app-icon-area:active { background-color: var(--holo-pressed); }
+        .app-icon { width: 32px; height: 32px; background-color: var(--holo-green); margin-right: 12px;
+            mask-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+        }
+        .app-title { font-size: 18px; font-weight: 500; color: #fff; text-transform: uppercase; }
+        
+        .tabs { display: flex; background: #000; border-bottom: 1px solid #222; }
+        .tab { flex: 1; text-align: center; padding: 14px 0; font-size: 13px; font-weight: bold; color: var(--text-secondary); text-transform: uppercase; border-bottom: 3px solid transparent; cursor: pointer; transition: 0.1s; }
+        .tab.active { color: #fff; border-bottom: 3px solid var(--holo-green); }
+        .tab:active { background-color: #222; }
+
+        .content-pane { display: none; padding-bottom: 40px; }
+        .content-pane.active { display: block; animation: fadeIn 0.2s; }
+        .hero-profile { padding: 20px 16px; display: flex; align-items: center; background: #090909; border-bottom: 1px solid #222; }
+        .avatar-box { width: 80px; height: 80px; background: #333; margin-right: 20px; border: 1px solid #444; }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-info h1 { font-weight: 300; font-size: 32px; color: #fff; margin-bottom: 4px; }
+        .profile-info p { color: var(--holo-green); font-size: 13px; text-transform: uppercase; font-weight: bold; }
+        .bio-text-block { padding: 16px; color: #ccc; font-size: 15px; line-height: 1.5; font-weight: 300; border-bottom: 1px solid #222; }
+        .section-label { padding: 15px 16px 5px 16px; color: var(--holo-green); font-size: 12px; font-weight: bold; text-transform: uppercase; }
+
+        .settings-list { border-top: 1px solid #222; border-bottom: 1px solid #222; margin-bottom: 20px; }
+        
+        .settings-item {
+            display: block;
+            padding: 16px;
+            background-color: #000;
+            border-bottom: 1px solid #222;
+            position: relative;
+            transition: background-color 0.1s;
+        }
+        .settings-item:last-child { border-bottom: none; }
+        
+        .settings-item:active { background-color: var(--holo-pressed); }
+
+        .settings-item::after { content: '›'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; color: #444; font-family: monospace; }
+
+        .static-settings-item {
+            display: block;
+            padding: 16px;
+            background-color: #000;
+            border-bottom: 1px solid #222;
+            position: relative;
+            cursor: default;
+        }
+        .static-settings-item:last-child { border-bottom: none; }
+        .static-settings-item::after { content: none; } 
+        .static-settings-item:active { background-color: #000; } 
+
+
+        .item-title { display: block; font-size: 17px; color: #fff; margin-bottom: 3px; }
+        .item-summary { display: block; font-size: 13px; color: var(--text-secondary); }
+
+        .skills-container { padding: 20px; }
+        .skill-block { margin-bottom: 24px; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; }
+        .skill-name { color: #fff; font-weight: bold; }
+        .skill-val { color: var(--holo-green); } /* Green Value Text */
+        .progress-track { width: 100%; height: 4px; background-color: #333; position: relative; }
+        .progress-bar { 
+            height: 100%; 
+            background-color: var(--holo-green); /* Green Bar */
+            position: absolute; top: 0; left: 0; 
+            box-shadow: 0 0 8px var(--holo-green); /* Green Glow */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="app-icon-area" onclick="location.reload()">
+            <div class="app-icon"></div>
+            <div class="app-title">FMZNkdv - BIO</div>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <div class="tab active" onclick="switchTab('info', this)">About</div>
+        <div class="tab" onclick="switchTab('projects', this)">Projects</div>
+        <div class="tab" onclick="switchTab('stats', this)">Skills</div>
+    </nav>
+
+    <main>
+        
+        <div id="info" class="content-pane active">
+            <div class="hero-profile">
+                <div class="avatar-box">
+                    <img src="https://4pda.to/s/PXtiiQexDz1gFxtJNWp7AJNXDV1Yy2cMExkbHUPnz2jcZz2E4fyxK.jpg" alt="User">
+                </div>
+                <div class="profile-info">
+                    <h1>FNZNkdv</h1>
+                    <p>Reverse Engineer</p>
+                </div>
+            </div>
+
+            <div class="bio-text-block">
+                I am engaged in arm reverse engineering, modding, designing & bot developing.
+            </div>
+
+            <div class="section-label">Contact & Socials</div>
+            <div class="settings-list">
+                
+                <a href="https://github.com/FMZNkdv" target="_blank" class="settings-item">
+                    <span class="item-title">GitHub</span>
+                    <span class="item-summary">Source Code & Repositories</span>
+                </a>
+
+                <a href="https://discord.com/users/fmznk" target="_blank" class="settings-item">
+                    <span class="item-title">Discord</span>
+                    <span class="item-summary">My Personal Chat</span>
+                </a>
+
+                <a href="https://t.me/FMZNkdv" target="_blank" class="settings-item">
+                    <span class="item-title">Telegram</span>
+                    <span class="item-summary">Personal Chat</span>
+                </a>
+                
+                <a href="https://4pda.to/forum/index.php?showuser=12132257" target="_blank" class="settings-item">
+                    <span class="item-title">4PDA</span>
+                    <span class="item-summary">Forum Threads & Guides</span>
+                </a>
+                
+                <a href="https://www.tiktok.com/@fmznk" target="_blank" class="settings-item">
+                    <span class="item-title">TikTok</span>
+                    <span class="item-summary">Retro Tech + Rofls</span>
+                </a>
+                
+            </div>
+
+            <div class="section-label">My Devices</div>
+            <div class="settings-list">
+                
+                <div class="static-settings-item">
+                    <span class="item-title">Nothing Phone 1 CMF</span>
+                    <span class="item-summary">Daily Driver • Android 14</span>
+                </div>
+                
+                <div class="static-settings-item">
+                    <span class="item-title">iPhone 3GS</span>
+                    <span class="item-summary">Legacy Collection • iOS 6.1.6</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="projects" class="content-pane">
+            
+            <div class="section-label">Active Development</div>
+            <div class="settings-list">
+                
+                <a href="https://github.com/FMZNkdv/Open8B" target="_blank" class="settings-item">
+                    <span class="item-title">Open8B</span>
+                    <span class="item-summary">Open source fork for 8-bit processor emulation</span>
+                </a>
+
+                <a href="Https://dsc.gg/McUtils" target="_blank" class="settings-item">
+                    <span class="item-title">BotUtils</span>
+                    <span class="item-summary">Minecraft bots + spam</span>
+                </a>
+
+            </div>
+
+            <div class="section-label">Archived Projects</div>
+            <div class="settings-list">
+                 <a href="https://github.com/FMZNkdv/ABL" target="_blank" class="settings-item">
+                    <span class="item-title">ABL</span>
+                    <span class="item-summary">Android style Boot Loader for x86 systems</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div id="stats" class="content-pane">
+            <div class="section-label">My skils</div>
+            <div class="skills-container">
+                
+                <div class="skill-block">
+                    <div class="skill-header">
+                        <span class="skill-name">Java / Kotlin</span>
+                        <span class="skill-val">90%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" style="width: 90%"></div>
+                    </div>
+                </div>
+
+                <div class="skill-block">
+                    <div class="skill-header">
+                        <span class="skill-name">C</span>
+                        <span class="skill-val">35%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" style="width: 35%"></div>
+                    </div>
+                </div>
+
+                <div class="skill-block">
+                    <div class="skill-header">
+                        <span class="skill-name">Node.Js</span>
+                        <span class="skill-val">45%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" style="width: 45%"></div>
+                    </div>
+                </div>
+
+                <div class="skill-block">
+                    <div class="skill-header">
+                        <span class="skill-name">Reverse Engineering</span>
+                        <span class="skill-val">50%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" style="width: 50%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.content-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
